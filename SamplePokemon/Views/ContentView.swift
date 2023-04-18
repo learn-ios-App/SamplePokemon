@@ -12,14 +12,29 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             List {
-                ForEach(pokemonViewModel.PokemonList) { pokemon in
+                ForEach(pokemonViewModel.pokemonList) { pokemon in
                     ListRow(pokemon: pokemon)
                 }
             }
             .task {
-                await pokemonViewModel.onApper()
+                await pokemonViewModel.loadPokemons()
             }
             .navigationTitle("初代ポケモン")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        pokemonViewModel.didTapFavoriteViewButton()
+                    }) {
+                        HStack {
+                            Image(systemName: "heart.fill")
+                        }
+                        .foregroundColor(.red)
+                    }
+                }
+            }
+        }
+        .sheet(isPresented: $pokemonViewModel.isFavoriteView) {
+            FavoritePokemonsView(pokemons: pokemonViewModel.favoritePokemonList)
         }
     }
 }

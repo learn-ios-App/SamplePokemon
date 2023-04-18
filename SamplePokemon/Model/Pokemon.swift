@@ -31,3 +31,12 @@ struct PokemonJp: Decodable {
         let name: String
     }
 }
+
+struct CustomPokemon: Identifiable {
+    let jaName: String
+    let enName: String
+    let image: URL
+    var favorite: Bool
+    
+    var id: String { enName }
+}

@@ -9,8 +9,8 @@ import Foundation
 
 class PokeAPIClient {
     
-    func fetch(url: String) async throws -> Pokemon {
-        guard let reqestURL = URL(string: url) else {
+    func fetch1(number: Int) async throws -> Pokemon {
+        guard let reqestURL = URL(string: "https://pokeapi.co/api/v2/pokemon/\(number)/") else {
             throw APIError.invalidURL
         }
         do {
@@ -27,12 +27,21 @@ class PokeAPIClient {
         }
     }
     
-    //ポケモン151体分のリクエストURL作成メソッド
-    func getURLs() -> [String] {
-        let pokemonIdRange = 1...151
-        let url: [String] = pokemonIdRange.map {
-            "https://pokeapi.co/api/v2/pokemon/\($0)/"
+    func fetch2(number: Int) async throws -> PokemonJp {
+        guard let reqestURL = URL(string: "https://pokeapi.co/api/v2/pokemon-species/\(number)/") else {
+            throw APIError.invalidURL
         }
-        return url
+        do {
+            let (data, response) = try await URLSession.shared.data(from: reqestURL)
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                throw APIError.responseError
+            }
+            guard let result = try? JSONDecoder().decode(PokemonJp.self, from: data) else {
+                throw APIError.decodeError
+            }
+            return result
+        } catch {
+            throw APIError.networkError
+        }
     }
 }

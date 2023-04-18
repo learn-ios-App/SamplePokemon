@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct ListRow: View {
-    @State var pokemon: Pokemon
+    @State var pokemon: CustomPokemon
     var body: some View {
         HStack {
-            AsyncImage(url: pokemon.sprites.frontImage) { image in
+            AsyncImage(url: pokemon.image) { image in
                 image
                     .resizable()
                     .scaledToFit()
@@ -19,14 +19,19 @@ struct ListRow: View {
             } placeholder: {
                 ProgressView()
             }
-            
-            Text(pokemon.name)
+            VStack {
+                Text(pokemon.jaName)
+                Text(pokemon.enName)
+            }
             Spacer()
-            
             Button(action: {
+                pokemon.favorite.toggle()
             }) {
-                Image(systemName: "heart")
-                    .foregroundColor(Color.pink)
+                Image(systemName: pokemon.favorite
+                      ? "heart.fill"
+                      : "heart"
+                )
+                    .foregroundColor(.pink)
             }
             .buttonStyle(.borderless)
         }
