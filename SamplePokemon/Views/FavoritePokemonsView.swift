@@ -4,14 +4,14 @@
 //
 //  Created by 渡邊魁優 on 2023/04/17.
 //
-
+//
 import SwiftUI
 
 struct FavoritePokemonsView: View {
-    @State var pokemons: [CustomPokemon]
+    @EnvironmentObject var pokemonViewModel: PokemonData
     var body: some View {
         List {
-            ForEach(pokemons) { pokemon in
+            ForEach($pokemonViewModel.favoritePokemonList) { pokemon in
                 ListRow(pokemon: pokemon)
             }
         }
@@ -21,5 +21,6 @@ struct FavoritePokemonsView: View {
 struct FavoritePokemonsView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(PokemonData())
     }
 }

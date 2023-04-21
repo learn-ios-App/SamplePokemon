@@ -27,7 +27,7 @@ class PokeAPIClient {
         }
     }
     
-    func fetch2(number: Int) async throws -> PokemonJp {
+    func fetch2(number: Int) async throws -> PokemonJP {
         guard let reqestURL = URL(string: "https://pokeapi.co/api/v2/pokemon-species/\(number)/") else {
             throw APIError.invalidURL
         }
@@ -36,7 +36,7 @@ class PokeAPIClient {
             guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
                 throw APIError.responseError
             }
-            guard let result = try? JSONDecoder().decode(PokemonJp.self, from: data) else {
+            guard let result = try? JSONDecoder().decode(PokemonJP.self, from: data) else {
                 throw APIError.decodeError
             }
             return result
