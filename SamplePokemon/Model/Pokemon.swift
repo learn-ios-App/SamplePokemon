@@ -8,12 +8,10 @@
 import Foundation
 
 //ポケモンのモデル
-struct Pokemon: Decodable, Identifiable {
+struct Pokemon: Decodable {
     let name: String
     let sprites: Sprites
-    
-    var id: String { name }
-    
+
     //画像データ
     struct Sprites: Decodable {
         let frontImage: URL
@@ -24,7 +22,7 @@ struct Pokemon: Decodable, Identifiable {
     }
 }
 
-struct PokemonJp: Decodable {
+struct PokemonJP: Decodable {
     let names: [Name]
     
     struct Name: Decodable {
@@ -32,11 +30,11 @@ struct PokemonJp: Decodable {
     }
 }
 
-struct CustomPokemon: Identifiable {
-    let jaName: String
-    let enName: String
+struct CustomPokemon: Identifiable, Codable {
+    let nameJP: String
+    let nameENG: String
     let image: URL
     var favorite: Bool
     
-    var id: String { enName }
+    var id: String { nameJP }
 }
