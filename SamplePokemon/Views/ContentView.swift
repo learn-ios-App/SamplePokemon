@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var pokemonViewModel = PokemonData()
+    @EnvironmentObject var pokemonViewModel: PokemonData
     var body: some View {
         NavigationStack {
             List {
-                ForEach(pokemonViewModel.pokemonList) { pokemon in
+                ForEach($pokemonViewModel.pokemonList) { pokemon in
                     ListRow(pokemon: pokemon)
                 }
             }
@@ -34,13 +34,15 @@ struct ContentView: View {
             }
         }
         .sheet(isPresented: $pokemonViewModel.isFavoriteView) {
-            FavoritePokemonsView(pokemons: pokemonViewModel.favoritePokemonList)
+            FavoritePokemonsView()
         }
+        .onAppear(perform: pokemonViewModel.onApper)
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(PokemonData())
     }
 }

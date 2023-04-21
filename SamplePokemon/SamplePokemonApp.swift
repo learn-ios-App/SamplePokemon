@@ -12,6 +12,7 @@ struct SamplePokemonApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(PokemonData())
         }
     }
 }

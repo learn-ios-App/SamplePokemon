@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct ListRow: View {
-    @State var pokemon: CustomPokemon
+    @EnvironmentObject var pokemonViewModel: PokemonData
+    @Binding var pokemon: CustomPokemon
     var body: some View {
         HStack {
             AsyncImage(url: pokemon.image) { image in
@@ -20,12 +21,12 @@ struct ListRow: View {
                 ProgressView()
             }
             VStack {
-                Text(pokemon.jaName)
-                Text(pokemon.enName)
+                Text(pokemon.nameJP)
+                Text(pokemon.nameENG)
             }
             Spacer()
             Button(action: {
-                pokemon.favorite.toggle()
+                pokemonViewModel.didTapFavoritButton(pokemon: pokemon)
             }) {
                 Image(systemName: pokemon.favorite
                       ? "heart.fill"
@@ -41,5 +42,6 @@ struct ListRow: View {
 struct ListRow_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(PokemonData())
     }
 }
